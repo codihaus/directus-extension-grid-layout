@@ -7,7 +7,7 @@ import CardsActions from './actions.vue';
 import CardsLayout from './cards.vue';
 import CardsOptions from './options.vue';
 import { LayoutOptions, LayoutQuery } from './types';
-
+import './style.css'
 
 export default defineLayout<LayoutOptions, LayoutQuery>({
 	id: 'item_blog',

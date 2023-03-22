@@ -87,20 +87,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.object-cover {
-	object-fit: cover;
-}
-.object-contain {
-	object-fit: contain;
-}
-.max-h-12{
-	max-height: 48px;
-	overflow: hidden;
-}
-.time{
-	font-size: 0.9rem;
-	color: var(--text-normal);
-}
 .color_primary{
 	--v-chip-color: var(--primary);
 	border: 2px solid var(--v-chip-color);
@@ -113,25 +99,6 @@ export default defineComponent({
 	--v-chip-color: rgb(255, 164, 57);
 	border: 2px solid  rgb(255, 164, 57);
 	background-color: rgb(255, 164, 57);
-}
-.chip-id{
-	background-color: var(--border-normal);
-	color: var(--text-normal);
-}
-.flex{
-	display: flex;	
-}
-.items-center{
-	align-items: center;
-}
-.flex-1{
-	flex: 1;
-}
-.mr-1 {
-	margin-right: 4px;
-}
-.mr-2 {
-	margin-right: 8px;
 }
 .title{
 	font-size: 1.1rem;
@@ -149,39 +116,8 @@ export default defineComponent({
 .color_sub{
 	background-color: var(--border-normal);
 }
-.dot{
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	display: inline-block;
-}
-.dot-sub{
-	width: 2px;
-	height: 16px;
-	border-radius: 1px;
-	display: inline-block;
-	background-color: var(--border-normal);
-}
-.mb-2{
-	margin-bottom: 8px;
-}
-.mb-1{
-	margin-bottom: 4px;
-}
-.text-2{
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-.text-3{
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
+
+
 .card-img{
 	width: 180px;
 	height: 160px;
@@ -197,28 +133,6 @@ export default defineComponent({
 
 }
 
-.gap-2{
-	gap: 8px;
-}
-.gap-6{
-	gap: 24px;
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.hidden-bar::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.hidden-bar {
-	width: 100%;
-	overflow: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-.relative{
-	position: relative;
-}
 .outline{
 	position: absolute;
 	inset: 0;
@@ -227,27 +141,7 @@ export default defineComponent({
 	box-shadow: inset 0 0 0 10px var(--primary-50) ;
 	transition:  box-shadow 0.15s ease-in-out;
 }
-.scale{
-	animation: scale 0.15s ease-in-out forwards;
-}
 
-
-@keyframes scale {
-	0% {
-		transform: scale(1);
-	}
-	100% {
-		transform: scale(0.95);
-	}
-}
-@keyframes scale2 {
-	0% {
-		transform: scale(0.95);
-	}
-	100% {
-		transform: scale(1);
-	}
-}
 .card:hover .title{
 	color: var(--primary);
 }
@@ -271,9 +165,7 @@ export default defineComponent({
 	.subtitle{
 		font-size: 0.8rem;
 	}
-	// .tags{
-	// 	display: none;
-	// }
+
 	
 }
 
