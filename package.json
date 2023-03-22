@@ -32,7 +32,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/codihaus/directus-grid-layout.git"
+        "url": "https://github.com/codihaus/directus-extension-grid-layout/"
     },
     "devDependencies": {
         "@directus/extensions-sdk": "9.23.1",
