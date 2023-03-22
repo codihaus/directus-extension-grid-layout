@@ -1,4 +1,3 @@
-
 import { useI18n } from 'vue-i18n';
 import { useCollection, useItems, useSync } from '@directus/extensions-sdk';
 import { defineLayout, getFieldsFromTemplate } from '@directus/shared/utils';
@@ -7,7 +6,6 @@ import CardsActions from './actions.vue';
 import CardsLayout from './cards.vue';
 import CardsOptions from './options.vue';
 import { LayoutOptions, LayoutQuery } from './types';
-
 
 export default defineLayout<LayoutOptions, LayoutQuery>({
 	id: 'item_blog',
@@ -54,25 +52,25 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 				isFiltered = false
 			) {
 				const { t, n } = useI18n();
-			
+
 				const opts = {
 					start: n((+currentPage - 1) * perPage + 1),
 					end: n(Math.min(currentPage * perPage, totalItems || 0)),
 					count: n(totalItems || 0),
 				};
-			
+
 				if (isFiltered) {
 					if (totalItems === 1) {
 						return t('one_filtered_item');
 					}
-			
+
 					return t('start_end_of_count_filtered_items', opts);
 				}
-			
+
 				if (totalItems > perPage) {
 					return t('start_end_of_count_items', opts);
 				}
-			
+
 				return t('item_count', { count: totalItems });
 			}
 
@@ -100,7 +98,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return cardsWidth <= width.value;
 		});
 
-		
+
 		function clone(value: any): any {
 			if (typeof value === "object" && value !== null) {
 			if (Array.isArray(value)) {
@@ -215,7 +213,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			selection.value = clone(items.value)?.map((item:any) => item[pk.field]);
 		}
 
-		
+
 return {
 	fileFields,
 	items,
@@ -247,7 +245,7 @@ return {
 	resetPresetAndRefresh,
 	filter,
 	search,
-	
+
 };
 
 
