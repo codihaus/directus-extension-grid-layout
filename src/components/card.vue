@@ -5,8 +5,8 @@
 		@click="handleClick"
 	>
 		<v-icon class="selector" :name="selectionIcon" @click.stop="toggleSelection" />
-		<item-one 
-			v-if="size == 1"
+		<div  :class="`card-${size}`">
+			<card-item
 			:id="item.id"
 			:image="imageSource && imageSource?.id || null" 
 			:selectMode="selectionIcon"
@@ -16,31 +16,8 @@
 			:statusClass="statusClass(item.status)"
 			:dateCreated="formatDate(item.date_created)"
 			:classImgFit="imgFit()"
-		/>
-		<item-two 
-			v-if="size == 2"
-			:id="item.id"
-			:image="imageSource && imageSource?.id || null" 
-			:selectMode="selectionIcon"
-			:title=" getItemValue(item,title)" 
-			:subtitle=" getItemValue(item,subtitle)" 
-			:tag=" getItemValue(item,tag)" 
-			:statusClass="statusClass(item.status)"
-			:dateCreated="formatDate(item.date_created)"
-			:classImgFit="imgFit()"
-		/>
-		<item-three 
-			v-if="size == 3"
-			:id="item.id"
-			:image="imageSource && imageSource?.id || null" 
-			:selectMode="selectionIcon"
-			:title=" getItemValue(item,title)" 
-			:subtitle=" getItemValue(item,subtitle)" 
-			:tag=" getItemValue(item,tag)" 
-			:statusClass="statusClass(item.status)"
-			:dateCreated="formatDate(item.date_created)"
-			:classImgFit="imgFit()"
-		/>
+			/>
+		</div>
 	</div>
 </template>
 
@@ -48,9 +25,7 @@
 import { computed, defineComponent, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import ItemOne from './ItemOne.vue';
-import ItemTwo from './ItemTwo.vue';
-import ItemThree from './ItemThree.vue';
+import CardItem from './CardItem.vue';
 type File = {
 	[key: string]: any;
 	id: string;
@@ -58,7 +33,7 @@ type File = {
 	modified_on: Date;
 };
 export default defineComponent({
-	components: { ItemOne,ItemTwo,ItemThree },
+	components: { CardItem },
 	props: {
 		icon: {
 			type: String,

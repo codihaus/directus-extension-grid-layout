@@ -22,7 +22,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 	setup(props, { emit }) {
 		const selection = useSync(props, 'selection', emit);
 		const layoutOptions = useSync(props, 'layoutOptions', emit);
-		const layoutQuery = useSync(props, 'layoutQuery', emit);
+		const layoutQuery = useSync(props, 'layoutQuery', emit);  
 
 		const { collection, filter, search, filterUser } = toRefs(props);
 

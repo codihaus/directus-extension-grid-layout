@@ -1,5 +1,5 @@
 {
-	"name": "directus-extension-blog-item",
+	"name": "directus-extension-grid-view",
 	"description": "Please enter a description for your extension",
 	"icon": "extension",
 	"version": "1.0.0",
@@ -10,7 +10,7 @@
 	],
 	"directus:extension": {
 		"type": "layout",
-		"path": "./../extensions/layouts/blog-item/index.js",
+		"path": "./../extensions/layouts/grid-view/index.js",
 		"source": "src/index.ts",
 		"host": "^9.23.1"
 	},
