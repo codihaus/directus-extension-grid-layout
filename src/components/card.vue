@@ -8,17 +8,19 @@
 		<div  :class="`card-${size}`">
 			<card-item
 			:id="item.id"
+			:item="item"
+			:collection="collection"
 			:image="imageSource && imageSource?.id || null" 
 			:selectMode="selectionIcon"
-			:title=" getItemValue(item,title)" 
-			:subtitle=" getItemValue(item,subtitle)" 
-			:tag=" getItemValue(item,tag)" 
+			:title="title"
+			:subtitle="subtitle" 
+			:tag="tag" 
 			:statusClass="statusClass(item.status)"
-			:dateCreated="formatDate(item.date_created)"
 			:classImgFit="imgFit()"
 			/>
 		</div>
 	</div>
+
 </template>
 
 <script lang="ts">
@@ -35,6 +37,9 @@ type File = {
 export default defineComponent({
 	components: { CardItem },
 	props: {
+		collection: {
+			type: String,
+		},
 		icon: {
 			type: String,
 			default: 'box',
@@ -103,32 +108,7 @@ export default defineComponent({
 
 		const router = useRouter();
 		const imgError = ref(false)
-
-
-		const { t } = useI18n({
-			locale: 'en',
-			messages: {
-				en: {
-					seconds: ' seconds ago',
-					minutes: ' minutes ago',
-					hours: ' hours ago',
-					days: ' days ago',
-					weeks: ' weeks ago',
-					months: ' months ago',
-					years: ' years ago',
-					
-				},
-				vi: {
-					seconds: ' giây trước',
-					minutes: ' phút trước',
-					hours: ' giờ trước',
-					days: ' ngày trước',
-					weeks: ' tuần trước',
-					months: ' tháng trước',
-					years: ' năm trước'
-				}
-			}
-		})
+		const { t } = useI18n();
 
 		const selectionIcon = computed(() => {
 			if (!props.item) return 'radio_button_unchecked';
@@ -136,7 +116,7 @@ export default defineComponent({
 			return props.modelValue.includes(props.item[props.itemKey]) ? 'check_circle' : 'radio_button_unchecked';
 		});
 
-		function toggleSelection() {
+		function toggleSelection(): void | any {
 			if (!props.item) return null;
 			
 			if (props.modelValue.includes(props.item[props.itemKey])) {
@@ -149,67 +129,12 @@ export default defineComponent({
 			}
 		}
 
-		function handleClick() {
+		function handleClick():void {
 			if (props.selectMode === true) {
 				toggleSelection();
 			} else {
 				router.push(props.to);
 			}
-		}
-		
-		function convertToArr(str:string):string[] {
-			if(!str) return []
-			return  str?.replace(/[{{}}]/g,'').split(' ')
-		}
-		function getItemValue(item: object, name: string) {
-			
-			if (!name) return;
-
-			let arr = convertToArr(name);
-		
-			let arrvalue = arr?.map((i) => {
-				let tagfirst = i.split('.')[0]
-				let value = item[tagfirst]
-				if (typeof value == 'string' || typeof value == 'number') return value
-				if(value && value.length > 0) return value?.map(x=>get_2(x,arr[0],null))
-			})
-			return arrvalue?.join(' ')
-			
-		}
-	
-		function get_2(obj:object, path:string, defaultValue:any):any {
-			const keys = Array.isArray(path) ? path : path?.split('.')
-			let result = obj
-
-			for (let i = 1; i < keys.length; i++) {
-				const key = keys[i]
-				result = result[key]
-
-				if (result === undefined) {
-				return defaultValue
-				}
-			}
-
-			return result
-			}
-
-	
-		function formatDate(data:string):string{
-			const end_date = new Date(data);
-			const start_date = new Date();
-			const diff = Math.abs(start_date.getTime() - end_date.getTime());
-			const diffDays = Math.ceil(diff / (1000));
-			return diffDays < 60 
-				? `${diffDays} ` + t('seconds')
-				: diffDays < 60 * 60 
-				? `${Math.floor(diffDays / 60)} ` + t('minutes')
-				: diffDays < 60 * 60 * 24 
-				? `${Math.floor(diffDays / (60 * 60))} ` + t('hours') 
-				: diffDays < 60 * 60 * 24 * 30 
-				? `${Math.floor(diffDays / (60 * 60 * 24))} ` + t('days')
-				: diffDays < 60 * 60 * 24 * 30 * 12 
-				? `${Math.floor(diffDays / (60 * 60 * 24 * 30))} ` + t('months')
-				: `${Math.floor(diffDays / (60 * 60 * 24 * 30 * 12))} ` + t('years')
 		}
 
 		function imgFit():string{
@@ -221,7 +146,7 @@ export default defineComponent({
 		}
 		
 		
-		return {t,selectionIcon, toggleSelection, handleClick, imgError,getItemValue,formatDate,imgFit,statusClass };
+		return {t,selectionIcon, toggleSelection, handleClick, imgError,imgFit,statusClass };
 	},
 	
 });

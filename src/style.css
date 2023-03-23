@@ -1,3 +1,11 @@
+.card .render-template {
+    all: unset;
+}
+
+.card .render-template .vertical-aligner {
+    all: unset;
+}
+
 .dot-sub {
     width: 2px;
     height: 16px;
@@ -132,10 +140,6 @@
     position: relative;
 }
 
-.time {
-    font-size: 0.9rem;
-    color: var(--text-normal);
-}
 
 .chip-id {
     background-color: var(--border-normal);
@@ -164,17 +168,6 @@
     background-color: var(--border-normal);
 }
 
-.title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin-bottom: 8px;
-    transition: all;
-}
-
-.subtitle {
-    font-size: 1.1rem;
-    color: var(--text-normal);
-}
 
 .card-1 .d-flex-custom {
     display: flex;
@@ -211,9 +204,6 @@
         font-size: 1rem;
     }
 
-    .card-1 .tags {
-        display: none;
-    }
 
 }
 

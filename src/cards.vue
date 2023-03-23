@@ -15,6 +15,7 @@
 					:key="item[primaryKeyField.field]"
 					v-model="selectionWritable"
 					:item-key="primaryKeyField.field"
+					:collection="collection"
 					:imageFit="imageFit"
 					:icon="icon"
 					:tag='tag'
@@ -27,15 +28,9 @@
 					:readonly="readonly"
 					:size="size"
 				>
-					<template v-if="title" #title>
-						<render-template :collection="collection" :item="item" :template="title" />
-					</template>
-					<template v-if="subtitle" #subtitle>
-						<render-template :collection="collection" :item="item" :template="subtitle" />
-					</template>
 					
 				</card>
-				
+	
 			</div>
 			<div class="footer">
 				<div class="pagination">
