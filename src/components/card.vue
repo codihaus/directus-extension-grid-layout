@@ -7,7 +7,6 @@
         <v-icon class="selector" :name="selectionIcon" @click.stop="toggleSelection"/>
         <component
             :is="layoutComponent"
-            v-if="size == 1"
             :id="item.id"
             :image="imageSource && imageSource?.id || null"
             :selectMode="selectionIcon"
