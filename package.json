@@ -2,7 +2,7 @@
     "name": "directus-extension-grid-layout",
     "description": "",
     "icon": "extension",
-    "version": "1.0.1",
+    "version": "1.0.12",
     "main": "./dist/index.js",
     "author": {
         "email": "contact@codihaus.com",
