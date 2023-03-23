@@ -1,31 +1,48 @@
 {
-	"name": "directus-extension-grid-view",
-	"description": "Please enter a description for your extension",
-	"icon": "extension",
-	"version": "1.0.0",
-	"keywords": [
-		"directus",
-		"directus-extension",
-		"directus-custom-layout"
-	],
-	"directus:extension": {
-		"type": "layout",
-		"path": "./../extensions/layouts/grid-view/index.js",
-		"source": "src/index.ts",
-		"host": "^9.23.1"
-	},
-	"scripts": {
-		"build": "directus-extension build",
-		"dev": "directus-extension build -w --no-minify",
-		"link": "directus-extension link"
-	},
-	"devDependencies": {
-		"@directus/extensions-sdk": "9.23.1",
-		"typescript": "^4.9.5",
-		"vue": "^3.2.47"
-	},
-	"dependencies": {
-		"sass": "^1.59.3",
-		"vue-i18n": "^9.2.2"
-	}
+    "name": "directus-extension-grid-layout",
+    "description": "",
+    "icon": "extension",
+    "version": "1.0.0",
+    "main": "./dist/index.js",
+    "author": {
+        "email": "contact@codihaus.com",
+        "name": "Codihaus"
+    },
+    "keywords": [
+        "directus",
+        "directus-extension",
+        "directus-grid-layout",
+        "directus-blog-layout",
+        "directus-admin-layout"
+    ],
+    "directus:extension": {
+        "type": "layout",
+        "path": "./dist/index.js",
+        "source": "src/index.ts",
+        "host": "^9.23.1",
+        "hidden": false
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "directus-extension build",
+        "dev": "directus-extension build -w --no-minify",
+        "link": "directus-extension link"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/codihaus/directus-extension-grid-layout/"
+    },
+    "devDependencies": {
+        "@directus/extensions-sdk": "9.23.1",
+        "sass": "^1.59.3",
+        "sass-loader": "^13.2.1",
+        "typescript": "^4.9.4",
+        "vue": "^3.2.45",
+        "vue-i18n": "^9.2.2"
+    },
+    "dependencies": {
+        "directus": "^9.23.1"
+    }
 }
