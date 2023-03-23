@@ -7,9 +7,9 @@ Directus Grid Layout Extension is a custom display type that enhances the way da
 
 # Installation
 
-- npm i directus-extension-grid-layout
-
 Run the command above at your Directu's root project level
+
+- npm i directus-extension-grid-layout
 
 # How to use
 
