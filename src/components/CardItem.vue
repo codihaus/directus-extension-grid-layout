@@ -1,18 +1,52 @@
 <template>
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
-			<img :src="imageUrl() " :alt="title"  class="card-img-img" :class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" @error="onErr($event)">
-			<div class="card-abs" :class="selectMode === 'check_circle' ? 'outline' : ''"></div>
+			<img 
+				:src="imageUrl() " 
+				:alt="title"  
+				class="card-img-img" 
+				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
+				@error="onErr($event)"
+			>
+			<div 
+				class="card-abs" 
+				:class="selectMode === 'check_circle' ? 'outline' : ''"></div>
 		</div>
 		<div class="flex-1 gap-6">
-			<render-template v-if="title" class="title" :collection="collection" :item="item" :template="title" />
-			<render-template v-if="subtitle" class=" subtitle" :collection="collection" :item="item" :template="subtitle" />
-			<render-template v-if="tag" class="tags" :collection="collection" :item="item" :template="tag" />
+			<render-template 
+				v-if="title" class="title" 
+				:collection="collection" 
+				:item="item" 
+				:template="title" 
+			/>
+			<render-template 
+				v-if="subtitle" 
+				class="subtitle" 
+				:collection="collection" 
+				:item="item" 
+				:template="subtitle" 
+			/>
+			<render-template 
+				v-if="tag" 
+				class="tags" 
+				:collection="collection" 
+				:item="item" 
+				:template="tag" 
+			/>
 			<p class="d-flex items-center gap-2">
-				<v-chip outlined x-small class="chip-id"  :class='statusClass' >{{ id }}</v-chip>
+				<v-chip 
+					outlined 
+					x-small 
+					class="chip-id"  
+					:class='statusClass' >{{ id }}</v-chip>
 				<div class="dot-sub"></div>
 				<v-icon small name="access_time"></v-icon>
-				<render-template class="time" :collection="collection" :item="item" :template="`{{date_created}}`" />
+				<render-template 
+					class="time" 
+					:collection="collection" 
+					:item="item" 
+					:template="`{{date_created}}`" 
+				/>
 			</p>
 		</div>
 	</div>
@@ -20,7 +54,7 @@
 
 <script lang="ts">
 import { useI18n } from 'vue-i18n';
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
 	props: {
@@ -70,18 +104,12 @@ export default defineComponent({
 	
 	},
 	emits: [''],
-	setup(props, { emit }) {
+	setup(props: any) {
 		const { t } = useI18n();
-		const tags = computed(() => {
-			if (props.tag) {
-				return props.tag.split(',');
-			}
-			return [];
-		});
+
 		function getPublicURL(): string {
 			return extract(window.location.href);
 		}
-
 
 		function extract(path: string) {
 			const parts = path.split('/');
@@ -90,17 +118,15 @@ export default defineComponent({
 			return rootPath;
 		}
 
-
-		function imageUrl() {
+		function imageUrl():string {
 			const assetUrl = new URL(`assets/${props.image}`, getPublicURL())
 			return assetUrl.href;
 		}
 		
-
 		function onErr(e:any){
 			e.target.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='
 		}
-		return { t,tags, onErr,imageUrl };
+		return { t, onErr,imageUrl };
 	},
 });
 </script>
@@ -128,7 +154,6 @@ export default defineComponent({
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 8px;
 
 }
 .card .time{
@@ -159,5 +184,12 @@ export default defineComponent({
 	display: inline-flex;
 	background-color: var(--border-normal);
     align-items: center;
+}
+.dot-sub {
+    width: 2px;
+    height: 16px;
+    border-radius: 1px;
+    display: inline-block;
+    background-color: var(--border-normal);
 }
 </style>

@@ -32,7 +32,6 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 
 		const { sort, limit, page, fields } = useLayoutQuery();
 
-
 		const fileFields = computed(() => {
 			return fieldsInCollection.value
 		});
@@ -92,7 +91,6 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			});
 		}
 
-
 		const width = ref(0);
 
 		const isSingleRow = computed(() => {
@@ -100,7 +98,6 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return cardsWidth <= width.value;
 		});
 
-		
 		function clone(value: any): any {
 			if (typeof value === "object" && value !== null) {
 			if (Array.isArray(value)) {
@@ -116,18 +113,16 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return value;
 		}
 
-		async function resetPresetAndRefresh() {
+		async function resetPresetAndRefresh():Promise<void> {
 			await props?.resetPreset?.();
 			refresh();
 		}
 
-		function refresh() {
+		function refresh():void {
 			getItems();
 			getTotalCount();
 			getItemCount();
 		}
-
-
 
 		function toPage(newPage: number) {
 			page.value = newPage;
@@ -141,9 +136,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			const imageSource = createViewOption<string | null>('imageSource', null);
 			const imageFit = createViewOption<string>('imageFit', 'cover');
 			const tag = createViewOption<string>('tag',null);
-
 			return { size, icon, imageSource, title, subtitle, imageFit,tag };
-
 			function createViewOption<T>(key: keyof LayoutOptions, defaultValue: any) {
 				return computed<T>({
 					get() {
@@ -204,52 +197,49 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return { sort, limit, page, fields };
 		}
 
-		function getLinkForItem(item: Record<string, any>) {
+		function getLinkForItem(item: Record<string, any>): string | undefined {
 			if (!primaryKeyField.value) return;
 			return `/content/${props.collection}/${encodeURIComponent(item[primaryKeyField.value.field])}`;
 		}
 
-		function selectAll() {
+		function selectAll(): void {
 			if (!primaryKeyField.value) return;
 			const pk = primaryKeyField.value;
 			selection.value = clone(items.value)?.map((item:any) => item[pk.field]);
 		}
-
 		
-return {
-	fileFields,
-	items,
-	loading,
-	error,
-	totalPages,
-	page,
-	toPage,
-	itemCount,
-	totalCount,
-	fieldsInCollection,
-	limit,
-	size,
-	primaryKeyField,
-	icon,
-	imageSource,
-	tag,
-	title,
-	subtitle,
-	getLinkForItem,
-	imageFit,
-	sort,
-	info,
-	showingCount,
-	isSingleRow,
-	width,
-	refresh,
-	selectAll,
-	resetPresetAndRefresh,
-	filter,
-	search,
-	
-};
-
-
+		return {
+			fileFields,
+			items,
+			loading,
+			error,
+			totalPages,
+			page,
+			toPage,
+			itemCount,
+			totalCount,
+			fieldsInCollection,
+			limit,
+			size,
+			primaryKeyField,
+			icon,
+			imageSource,
+			tag,
+			title,
+			subtitle,
+			getLinkForItem,
+			imageFit,
+			sort,
+			info,
+			showingCount,
+			isSingleRow,
+			width,
+			refresh,
+			selectAll,
+			resetPresetAndRefresh,
+			filter,
+			search,
+			
+		};
 	},
 });

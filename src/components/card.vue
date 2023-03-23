@@ -154,7 +154,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 
-
 .loading {
 	.header {
 		margin-bottom: 8px;
