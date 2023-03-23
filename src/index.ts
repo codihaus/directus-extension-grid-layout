@@ -1,3 +1,4 @@
+
 import { useI18n } from 'vue-i18n';
 import { useCollection, useItems, useSync } from '@directus/extensions-sdk';
 import { defineLayout, getFieldsFromTemplate } from '@directus/shared/utils';
@@ -6,6 +7,7 @@ import CardsActions from './actions.vue';
 import CardsLayout from './cards.vue';
 import CardsOptions from './options.vue';
 import { LayoutOptions, LayoutQuery } from './types';
+import './style.css'
 
 export default defineLayout<LayoutOptions, LayoutQuery>({
 	id: 'item_blog',
@@ -20,7 +22,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 	setup(props, { emit }) {
 		const selection = useSync(props, 'selection', emit);
 		const layoutOptions = useSync(props, 'layoutOptions', emit);
-		const layoutQuery = useSync(props, 'layoutQuery', emit);
+		const layoutQuery = useSync(props, 'layoutQuery', emit);  
 
 		const { collection, filter, search, filterUser } = toRefs(props);
 
@@ -29,7 +31,6 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 		const { size, icon, imageSource, title, subtitle, imageFit,tag } = useLayoutOptions();
 
 		const { sort, limit, page, fields } = useLayoutQuery();
-
 
 		const fileFields = computed(() => {
 			return fieldsInCollection.value
@@ -52,25 +53,25 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 				isFiltered = false
 			) {
 				const { t, n } = useI18n();
-
+			
 				const opts = {
 					start: n((+currentPage - 1) * perPage + 1),
 					end: n(Math.min(currentPage * perPage, totalItems || 0)),
 					count: n(totalItems || 0),
 				};
-
+			
 				if (isFiltered) {
 					if (totalItems === 1) {
 						return t('one_filtered_item');
 					}
-
+			
 					return t('start_end_of_count_filtered_items', opts);
 				}
-
+			
 				if (totalItems > perPage) {
 					return t('start_end_of_count_items', opts);
 				}
-
+			
 				return t('item_count', { count: totalItems });
 			}
 
@@ -90,14 +91,12 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			});
 		}
 
-
 		const width = ref(0);
 
 		const isSingleRow = computed(() => {
 			const cardsWidth = items.value.length * (size.value * 40) + (items.value.length - 1) * 24;
 			return cardsWidth <= width.value;
 		});
-
 
 		function clone(value: any): any {
 			if (typeof value === "object" && value !== null) {
@@ -114,18 +113,16 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return value;
 		}
 
-		async function resetPresetAndRefresh() {
+		async function resetPresetAndRefresh():Promise<void> {
 			await props?.resetPreset?.();
 			refresh();
 		}
 
-		function refresh() {
+		function refresh():void {
 			getItems();
 			getTotalCount();
 			getItemCount();
 		}
-
-
 
 		function toPage(newPage: number) {
 			page.value = newPage;
@@ -139,9 +136,7 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			const imageSource = createViewOption<string | null>('imageSource', null);
 			const imageFit = createViewOption<string>('imageFit', 'cover');
 			const tag = createViewOption<string>('tag',null);
-
 			return { size, icon, imageSource, title, subtitle, imageFit,tag };
-
 			function createViewOption<T>(key: keyof LayoutOptions, defaultValue: any) {
 				return computed<T>({
 					get() {
@@ -202,52 +197,49 @@ export default defineLayout<LayoutOptions, LayoutQuery>({
 			return { sort, limit, page, fields };
 		}
 
-		function getLinkForItem(item: Record<string, any>) {
+		function getLinkForItem(item: Record<string, any>): string | undefined {
 			if (!primaryKeyField.value) return;
 			return `/content/${props.collection}/${encodeURIComponent(item[primaryKeyField.value.field])}`;
 		}
 
-		function selectAll() {
+		function selectAll(): void {
 			if (!primaryKeyField.value) return;
 			const pk = primaryKeyField.value;
 			selection.value = clone(items.value)?.map((item:any) => item[pk.field]);
 		}
-
-
-return {
-	fileFields,
-	items,
-	loading,
-	error,
-	totalPages,
-	page,
-	toPage,
-	itemCount,
-	totalCount,
-	fieldsInCollection,
-	limit,
-	size,
-	primaryKeyField,
-	icon,
-	imageSource,
-	tag,
-	title,
-	subtitle,
-	getLinkForItem,
-	imageFit,
-	sort,
-	info,
-	showingCount,
-	isSingleRow,
-	width,
-	refresh,
-	selectAll,
-	resetPresetAndRefresh,
-	filter,
-	search,
-
-};
-
-
+		
+		return {
+			fileFields,
+			items,
+			loading,
+			error,
+			totalPages,
+			page,
+			toPage,
+			itemCount,
+			totalCount,
+			fieldsInCollection,
+			limit,
+			size,
+			primaryKeyField,
+			icon,
+			imageSource,
+			tag,
+			title,
+			subtitle,
+			getLinkForItem,
+			imageFit,
+			sort,
+			info,
+			showingCount,
+			isSingleRow,
+			width,
+			refresh,
+			selectAll,
+			resetPresetAndRefresh,
+			filter,
+			search,
+			
+		};
 	},
 });

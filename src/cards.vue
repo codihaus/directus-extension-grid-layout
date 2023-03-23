@@ -15,27 +15,19 @@
 					:key="item[primaryKeyField.field]"
 					v-model="selectionWritable"
 					:item-key="primaryKeyField.field"
+					:collection="collection"
+					:item="item"
 					:imageFit="imageFit"
 					:icon="icon"
 					:tag='tag'
 					:title="title"
 					:subtitle="subtitle"
 					:imageSource="imageSource ? item[imageSource] : null"
-					:item="item"
 					:select-mode="selectMode || (selection && selection.length > 0)"
 					:to="getLinkForItem(item)"
 					:readonly="readonly"
 					:size="size"
-				>
-					<template v-if="title" #title>
-						<render-template :collection="collection" :item="item" :template="title" />
-					</template>
-					<template v-if="subtitle" #subtitle>
-						<render-template :collection="collection" :item="item" :template="subtitle" />
-					</template>
-					
-				</card>
-				
+				/>
 			</div>
 			<div class="footer">
 				<div class="pagination">
@@ -63,16 +55,13 @@
 
 		<v-info v-else-if="error" type="danger" :title="t('unexpected_error')" icon="error" center>
 			{{ t('unexpected_error_copy') }}
-
 			<template #append>
 				<v-error :error="error" />
-
 				<v-button small class="reset-preset" @click="resetPresetAndRefresh">
 					{{ t('reset_page_preferences') }}
 				</v-button>
 			</template>
 		</v-info>
-
 		<slot v-else-if="itemCount === 0 && (filter || search)" name="no-results" />
 		<slot v-else-if="itemCount === 0" name="no-items" />
 	</div>
