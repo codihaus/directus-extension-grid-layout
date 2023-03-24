@@ -2,7 +2,7 @@
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
 			<img 
-				:src="imageUrl() " 
+				:src="imageUrl()" 
 				:alt="title"  
 				class="card-img-img" 
 				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
@@ -119,8 +119,10 @@ export default defineComponent({
 		}
 
 		function imageUrl():string {
-			const assetUrl = new URL(`assets/${props.image}`, getPublicURL())
-			return assetUrl.href;
+			
+			const assetUrl = props.image ? new URL(`assets/${props.image}`, getPublicURL()) : null;
+			
+			return assetUrl?.href ? `${assetUrl.href}?width=500&height=350` : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 		}
 		
 		function onErr(e:any){
