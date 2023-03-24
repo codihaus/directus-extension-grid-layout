@@ -33,7 +33,7 @@
 				:item="item" 
 				:template="tag" 
 			/>
-			<p class="d-flex items-center gap-2">
+			<p class="d-flex w-full items-center gap-2">
 				<v-chip 
 					outlined 
 					x-small 
@@ -154,12 +154,22 @@ export default defineComponent({
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+	margin-bottom: 6px;
 
 }
 .card .time{
-    font-size: 0.9rem;
-    color: var(--text-normal);
+    font-size: 0.9rem !important;
+    color: var(--text-normal) !important;
+	
+
 }
+.card .datetime{
+	overflow: hidden;
+    line-height: 1.15;
+    white-space: initial !important;
+    text-overflow: ellipsis;
+}
+
 
 .color_primary{
 	--v-chip-color: var(--primary);
@@ -177,14 +187,13 @@ export default defineComponent({
 
 .card .tags{
 	margin-bottom: 8px;
-	height: 20px;
-    padding: 0 4px;
+    padding: 4px;
     font-size: 12px;
-	border-radius: var(--border-radius);
-	display: inline-flex;
+	border-radius: 4px;
 	background-color: var(--border-normal);
-    align-items: center;
+	display: inline-block;
 }
+
 .dot-sub {
     width: 2px;
     height: 16px;
