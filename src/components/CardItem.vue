@@ -2,7 +2,7 @@
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
 			<img 
-				:src="imageUrl() " 
+				:src="imageUrl()" 
 				:alt="title"  
 				class="card-img-img" 
 				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
@@ -33,7 +33,7 @@
 				:item="item" 
 				:template="tag" 
 			/>
-			<p class="d-flex items-center gap-2">
+			<p class="d-flex w-full items-center gap-2">
 				<v-chip 
 					outlined 
 					x-small 
@@ -119,8 +119,10 @@ export default defineComponent({
 		}
 
 		function imageUrl():string {
-			const assetUrl = new URL(`assets/${props.image}`, getPublicURL())
-			return assetUrl.href;
+			
+			const assetUrl = props.image ? new URL(`assets/${props.image}`, getPublicURL()) : null;
+			
+			return assetUrl?.href ? `${assetUrl.href}?width=500&height=350` : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 		}
 		
 		function onErr(e:any){
@@ -154,12 +156,22 @@ export default defineComponent({
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+	margin-bottom: 6px;
 
 }
 .card .time{
-    font-size: 0.9rem;
-    color: var(--text-normal);
+    font-size: 0.9rem !important;
+    color: var(--text-normal) !important;
+	
+
 }
+.card .datetime{
+	overflow: hidden;
+    line-height: 1.15;
+    white-space: initial !important;
+    text-overflow: ellipsis;
+}
+
 
 .color_primary{
 	--v-chip-color: var(--primary);
@@ -177,14 +189,13 @@ export default defineComponent({
 
 .card .tags{
 	margin-bottom: 8px;
-	height: 20px;
-    padding: 0 4px;
+    padding: 4px;
     font-size: 12px;
-	border-radius: var(--border-radius);
-	display: inline-flex;
+	border-radius: 4px;
 	background-color: var(--border-normal);
-    align-items: center;
+	display: inline-block;
 }
+
 .dot-sub {
     width: 2px;
     height: 16px;

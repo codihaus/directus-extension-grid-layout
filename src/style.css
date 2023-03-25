@@ -15,6 +15,28 @@
     animation: scale 0.15s ease-in-out forwards;
 }
 
+.card .datetime {
+    overflow: hidden;
+    line-height: 1.15;
+    white-space: initial !important;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.card .tags {
+    overflow: hidden;
+    line-height: 1.15;
+    white-space: initial !important;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
 @keyframes scale {
     0% {
         transform: scale(1);
@@ -35,15 +57,26 @@
     }
 }
 
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
 .items-center {
     align-items: center;
 }
 
-.flex-1 {
-    flex: 1;
+.card .flex-1 {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 0%;
+    -webkit-flex: 1 1 0%;
+    flex: 1 1 0%;
 }
 
-.d-flex {
+.card .d-flex {
     display: flex;
 }
 
