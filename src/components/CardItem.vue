@@ -2,12 +2,16 @@
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
 			<img 
+				v-if="image"
 				:src="imageUrl()" 
 				:alt="title"  
 				class="card-img-img" 
 				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
 				@error="onErr($event)"
 			>
+			<div v-if="!image" class="icon-fall ">
+				<v-icon x-large name="image"></v-icon>
+			</div>
 			<div 
 				class="card-abs" 
 				:class="selectMode === 'check_circle' ? 'outline' : ''"></div>
@@ -202,5 +206,18 @@ export default defineComponent({
     border-radius: 1px;
     display: inline-block;
     background-color: var(--border-normal);
+}
+.icon-fall{
+	position: absolute;
+	width: 100%;
+	inset: 0;
+	display: flex;
+	place-items: center;
+	justify-content: center;
+}
+.icon-fall v-icon{
+	font-size: 2rem;
+	width: 50px;
+	color: var(--text-normal);
 }
 </style>
