@@ -1,30 +1,84 @@
 <template>
-	<div ref="layoutElement" class="layout-cards" :style="{ '--size': width >=600 ? size : 1 }">
-		<template v-if="loading || itemCount > 0">
+	<div
+		ref="layoutElement"
+		class="layout-cards"
+		:style="{
+			'--size':
+				width >= 600 ? size : 1,
+		}"
+	>
+		<template
+			v-if="
+				loading || itemCount > 0
+			"
+		>
 			<cards-header
-				v-model:size="sizeWritable"
-				v-model:selection="selectionWritable"
-				v-model:sort="sortWritable"
-				:fields="fieldsInCollection"
-				:show-select="showSelect"
+				v-model:size="
+					sizeWritable
+				"
+				v-model:selection="
+					selectionWritable
+				"
+				v-model:sort="
+					sortWritable
+				"
+				:fields="
+					fieldsInCollection
+				"
+				:show-select="
+					showSelect
+				"
 				@select-all="selectAll"
 			/>
-			<div class="grid" :class="{ 'single-row': isSingleRow }">
+			<div
+				class="grid"
+				:class="{
+					'single-row':
+						isSingleRow,
+				}"
+			>
 				<card
 					v-for="item in items"
-					:key="item[primaryKeyField.field]"
-					v-model="selectionWritable"
-					:item-key="primaryKeyField.field"
-					:collection="collection"
+					:key="
+						item[
+							primaryKeyField
+								.field
+						]
+					"
+					v-model="
+						selectionWritable
+					"
+					:item-key="
+						primaryKeyField.field
+					"
+					:collection="
+						collection
+					"
 					:item="item"
 					:imageFit="imageFit"
 					:icon="icon"
-					:tag='tag'
+					:tag="tag"
+					:idShow="idShow"
 					:title="title"
 					:subtitle="subtitle"
-					:imageSource="imageSource ? item[imageSource] : null"
-					:select-mode="selectMode || (selection && selection.length > 0)"
-					:to="getLinkForItem(item)"
+					:imageSource="
+						imageSource
+							? item[
+									imageSource
+							  ]
+							: null
+					"
+					:select-mode="
+						selectMode ||
+						(selection &&
+							selection.length >
+								0)
+					"
+					:to="
+						getLinkForItem(
+							item
+						)
+					"
 					:readonly="readonly"
 					:size="size"
 				/>
@@ -32,50 +86,131 @@
 			<div class="footer">
 				<div class="pagination">
 					<v-pagination
-						v-if="totalPages > 1"
-						:length="totalPages"
-						:total-visible="7"
+						v-if="
+							totalPages >
+							1
+						"
+						:length="
+							totalPages
+						"
+						:total-visible="
+							7
+						"
 						show-first-last
-						:model-value="page"
-						@update:model-value="toPage"
+						:model-value="
+							page
+						"
+						@update:model-value="
+							toPage
+						"
 					/>
 				</div>
 
-				<div v-if="loading === false && items.length >= 25" class="per-page">
-					<span>{{ t('per_page') }}</span>
+				<div
+					v-if="
+						loading ===
+							false &&
+						items.length >=
+							25
+					"
+					class="per-page"
+				>
+					<span>{{
+						t("per_page")
+					}}</span>
 					<v-select
 						:model-value="`${limit}`"
-						:items="['25', '50', '100', '250', '500', '1000']"
+						:items="[
+							'25',
+							'50',
+							'100',
+							'250',
+							'500',
+							'1000',
+						]"
 						inline
-						@update:model-value="limitWritable = +$event"
+						@update:model-value="
+							limitWritable =
+								+$event
+						"
 					/>
 				</div>
 			</div>
 		</template>
 
-		<v-info v-else-if="error" type="danger" :title="t('unexpected_error')" icon="error" center>
-			{{ t('unexpected_error_copy') }}
+		<v-info
+			v-else-if="error"
+			type="danger"
+			:title="
+				t('unexpected_error')
+			"
+			icon="error"
+			center
+		>
+			{{
+				t(
+					"unexpected_error_copy"
+				)
+			}}
 			<template #append>
-				<v-error :error="error" />
-				<v-button small class="reset-preset" @click="resetPresetAndRefresh">
-					{{ t('reset_page_preferences') }}
+				<v-error
+					:error="error"
+				/>
+				<v-button
+					small
+					class="reset-preset"
+					@click="
+						resetPresetAndRefresh
+					"
+				>
+					{{
+						t(
+							"reset_page_preferences"
+						)
+					}}
 				</v-button>
 			</template>
 		</v-info>
-		<slot v-else-if="itemCount === 0 && (filter || search)" name="no-results" />
-		<slot v-else-if="itemCount === 0" name="no-items" />
+		<slot
+			v-else-if="
+				itemCount === 0 &&
+				(filter || search)
+			"
+			name="no-results"
+		/>
+		<slot
+			v-else-if="itemCount === 0"
+			name="no-items"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
-import { useI18n } from 'vue-i18n';
-import { defineComponent, watch, PropType, ref, inject, Ref } from 'vue';
+import { useI18n } from "vue-i18n";
+import {
+	defineComponent,
+	watch,
+	PropType,
+	ref,
+	inject,
+	Ref,
+	toRefs,
+} from "vue";
 
-import Card from './components/card.vue';
-import CardsHeader from './components/header.vue';
-import { Field, Item } from '@directus/shared/types';
-import { useSync, useElementSize } from '@directus/shared/composables';
-import { Filter, ShowSelect } from '@directus/shared/types';
+import Card from "./components/card.vue";
+import CardsHeader from "./components/header.vue";
+import {
+	Field,
+	Item,
+} from "@directus/types";
+import {
+	useSync,
+	useElementSize,
+} from "@directus/composables";
+import {
+	Filter,
+	ShowSelect,
+} from "@directus/types";
 
 export default defineComponent({
 	components: { Card, CardsHeader },
@@ -86,12 +221,14 @@ export default defineComponent({
 			required: true,
 		},
 		selection: {
-			type: Array as PropType<Item[]>,
+			type: Array as PropType<
+				Item[]
+			>,
 			required: true,
 		},
 		showSelect: {
 			type: String as PropType<ShowSelect>,
-			default: 'multiple',
+			default: "multiple",
 		},
 		selectMode: {
 			type: Boolean,
@@ -102,7 +239,9 @@ export default defineComponent({
 			required: true,
 		},
 		items: {
-			type: Array as PropType<Item[]>,
+			type: Array as PropType<
+				Item[]
+			>,
 			required: true,
 		},
 		loading: {
@@ -122,7 +261,11 @@ export default defineComponent({
 			required: true,
 		},
 		toPage: {
-			type: Function as PropType<(newPage: number) => void>,
+			type: Function as PropType<
+				(
+					newPage: number
+				) => void
+			>,
 			required: true,
 		},
 		itemCount: {
@@ -130,7 +273,9 @@ export default defineComponent({
 			default: null,
 		},
 		fieldsInCollection: {
-			type: Array as PropType<Item[]>,
+			type: Array as PropType<
+				Item[]
+			>,
 			required: true,
 		},
 		limit: {
@@ -161,18 +306,27 @@ export default defineComponent({
 			default: null,
 		},
 		getLinkForItem: {
-			type: Function as PropType<(item: Record<string, any>) => string | undefined>,
+			type: Function as PropType<
+				(
+					item: Record<
+						string,
+						any
+					>
+				) => string | undefined
+			>,
 			required: true,
 		},
 		imageFit: {
 			type: String,
 		},
 		sort: {
-			type: Array as PropType<string[]>,
+			type: Array as PropType<
+				string[]
+			>,
 			required: true,
 		},
 		info: {
-			type: Object ,
+			type: Object,
 			default: null,
 		},
 		isSingleRow: {
@@ -184,11 +338,15 @@ export default defineComponent({
 			required: true,
 		},
 		selectAll: {
-			type: Function as PropType<() => void>,
+			type: Function as PropType<
+				() => void
+			>,
 			required: true,
 		},
 		resetPresetAndRefresh: {
-			type: Function as PropType<() => Promise<void>>,
+			type: Function as PropType<
+				() => Promise<void>
+			>,
 			required: true,
 		},
 		filter: {
@@ -199,37 +357,86 @@ export default defineComponent({
 			type: String,
 			default: null,
 		},
-		tag:{
+		tag: {
 			type: String,
 			default: null,
-		}
-	
+		},
+		idShow: {
+			type: Boolean,
+		},
 	},
-	emits: ['update:selection', 'update:limit', 'update:size', 'update:sort', 'update:width'],
+	emits: [
+		"update:selection",
+		"update:limit",
+		"update:size",
+		"update:sort",
+		"update:width",
+	],
 	setup(props, { emit }) {
 		const { t } = useI18n();
 
-		const selectionWritable = useSync(props, 'selection', emit);
-		const limitWritable = useSync(props, 'limit', emit);
-		const sizeWritable = useSync(props, 'size', emit);
-		const sortWritable = useSync(props, 'sort', emit);
+		const selectionWritable =
+			useSync(
+				props,
+				"selection",
+				emit
+			);
+		const limitWritable = useSync(
+			props,
+			"limit",
+			emit
+		);
+		const sizeWritable = useSync(
+			props,
+			"size",
+			emit
+		);
+		const sortWritable = useSync(
+			props,
+			"sort",
+			emit
+		);
 
-		const mainElement = inject<Ref<Element | undefined>>('main-element');
+		const mainElement = inject<
+			Ref<Element | undefined>
+		>("main-element");
 
-		const layoutElement = ref<HTMLElement>();
+		const layoutElement =
+			ref<HTMLElement>();
 
-		const { width } = useElementSize(layoutElement);
+		const { width } =
+			useElementSize(
+				layoutElement
+			);
 
 		watch(
 			() => props.page,
-			() => mainElement.value?.scrollTo({ top: 0, behavior: 'smooth' })
+			() =>
+				mainElement.value?.scrollTo(
+					{
+						top: 0,
+						behavior:
+							"smooth",
+					}
+				)
 		);
 
 		watch(width, () => {
-			emit('update:width', width.value);
+			emit(
+				"update:width",
+				width.value
+			);
 		});
 
-		return { t, selectionWritable, limitWritable, sizeWritable, sortWritable, layoutElement,width };
+		return {
+			t,
+			selectionWritable,
+			limitWritable,
+			sizeWritable,
+			sortWritable,
+			layoutElement,
+			width,
+		};
 	},
 });
 </script>
@@ -242,10 +449,11 @@ export default defineComponent({
 
 .grid {
 	display: grid;
-	grid-template-columns: repeat(var(--size), minmax(0, 1fr));
+	grid-template-columns: repeat(
+		var(--size),
+		minmax(0, 1fr)
+	);
 	gap: 32px 24px;
-
-
 }
 
 .footer {
@@ -263,7 +471,9 @@ export default defineComponent({
 		align-items: center;
 		justify-content: flex-end;
 		width: 240px;
-		color: var(--foreground-subdued);
+		color: var(
+			--foreground-subdued
+		);
 
 		span {
 			width: auto;
@@ -271,7 +481,9 @@ export default defineComponent({
 		}
 
 		.v-select {
-			color: var(--foreground-normal);
+			color: var(
+				--foreground-normal
+			);
 		}
 	}
 }

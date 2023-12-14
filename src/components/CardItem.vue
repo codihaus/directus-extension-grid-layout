@@ -38,7 +38,9 @@
 				:template="tag" 
 			/>
 			<p class="d-flex w-full items-center gap-2">
+
 				<v-chip 
+					v-if="idShow"
 					outlined 
 					x-small 
 					class="chip-id"  
@@ -58,10 +60,14 @@
 
 <script lang="ts">
 import { useI18n } from 'vue-i18n';
-import { defineComponent } from 'vue';
-
+import { defineComponent,computed,watch,toRefs } from 'vue';
+import { useSync } from '@directus/extensions-sdk';
 export default defineComponent({
 	props: {
+		layoutOptions: {
+            type: Object as PropType<LayoutOptions>,
+            required: false,
+        },
 		collection: {
 			default: null,
 		},
@@ -104,13 +110,17 @@ export default defineComponent({
 			type: Object,
 			default: null,
 		},
+		idShow:{
+			type: Boolean
+		}
 	
 	
 	},
 	emits: [''],
-	setup(props: any) {
+	setup(props: any,{emit}) {
 		const { t } = useI18n();
-
+		const {  layoutOptions } = toRefs(props);
+		
 		function getPublicURL(): string {
 			return extract(window.location.href);
 		}
