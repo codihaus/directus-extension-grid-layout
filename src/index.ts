@@ -15,7 +15,7 @@ import {
 	watch,
 } from "vue";
 import CardsActions from "./actions.vue";
-import CardsLayout from "./cards.vue";
+import CardsLayout from "./layout.vue";
 import CardsOptions from "./options.vue";
 import {
 	LayoutOptions,

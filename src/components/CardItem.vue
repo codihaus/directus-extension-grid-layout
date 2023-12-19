@@ -1,6 +1,7 @@
 <template>
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
+			<div  class="selection-fade"></div>
 			<img 
 				v-if="image"
 				:src="imageUrl()" 
@@ -9,7 +10,7 @@
 				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
 				@error="onErr($event)"
 			>
-			<div v-if="!image" class="icon-fall ">
+			<div v-else class="icon-fall bg-not-thumbnail">
 				<v-icon x-large name="image"></v-icon>
 			</div>
 			<div 
@@ -45,7 +46,7 @@
 					x-small 
 					class="chip-id"  
 					:class='statusClass' >{{ id }}</v-chip>
-				<div class="dot-sub"></div>
+				<div v-if="idShow" class="dot-sub"></div>
 				<v-icon small name="access_time"></v-icon>
 				<render-template 
 					class="time" 
@@ -224,10 +225,41 @@ export default defineComponent({
 	display: flex;
 	place-items: center;
 	justify-content: center;
+	z-index: 10;
+}
+.bg-not-thumbnail{
+	position: absolute;
+	width: 100%;
+	inset: 0;
+	z-index: 1;
+	background-color: var(--background-highlight);
 }
 .icon-fall v-icon{
 	font-size: 2rem;
 	width: 50px;
 	color: var(--text-normal);
+}
+.card-img .selection-fade{
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 48px;
+    opacity: 0;
+    transition: opacity var(--fast) var(--transition);
+}
+.card-img .selection-fade::before{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(-180deg, rgba(38, 50, 56, 0.1) 10%, rgba(38, 50, 56, 0));
+    content: "";
+}
+.card-img:hover .selection-fade{
+	opacity: 1;
+	transition: opacity var(--fast) var(--transition)
 }
 </style>

@@ -197,8 +197,8 @@ import {
 	toRefs,
 } from "vue";
 
-import Card from "./components/card.vue";
-import CardsHeader from "./components/header.vue";
+import Card from "./components/Card.vue";
+import CardsHeader from "./components/Header.vue";
 import {
 	Field,
 	Item,

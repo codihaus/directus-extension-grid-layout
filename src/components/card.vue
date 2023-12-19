@@ -367,14 +367,11 @@ export default defineComponent({
 	}
 
 	.selector {
-		--v-icon-color: var(--white);
-		--v-icon-color-hover: var(
-			--white
-		);
+		color: var(--v-icon-color);
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		z-index: 3;
+		z-index: 11;
 		margin: 4px;
 		opacity: 0;
 		transition: opacity var(--fast)
