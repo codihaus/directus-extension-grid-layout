@@ -6,6 +6,7 @@ export type LayoutOptions = {
 	subtitle?: string;
 	imageFit?: 'crop' | 'contain';,
 	tag?: string;
+	idShow?: boolean;
 };
 
 export type LayoutQuery = {

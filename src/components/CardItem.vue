@@ -1,13 +1,18 @@
 <template>
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
+			<div  class="selection-fade"></div>
 			<img 
+				v-if="image"
 				:src="imageUrl()" 
 				:alt="title"  
 				class="card-img-img" 
 				:class="[selectMode === 'check_circle' ? 'scale' : '',classImgFit]" 
 				@error="onErr($event)"
 			>
+			<div v-else class="icon-fall bg-not-thumbnail">
+				<v-icon x-large name="image"></v-icon>
+			</div>
 			<div 
 				class="card-abs" 
 				:class="selectMode === 'check_circle' ? 'outline' : ''"></div>
@@ -34,12 +39,14 @@
 				:template="tag" 
 			/>
 			<p class="d-flex w-full items-center gap-2">
+
 				<v-chip 
+					v-if="idShow"
 					outlined 
 					x-small 
 					class="chip-id"  
 					:class='statusClass' >{{ id }}</v-chip>
-				<div class="dot-sub"></div>
+				<div v-if="idShow" class="dot-sub"></div>
 				<v-icon small name="access_time"></v-icon>
 				<render-template 
 					class="time" 
@@ -54,10 +61,14 @@
 
 <script lang="ts">
 import { useI18n } from 'vue-i18n';
-import { defineComponent } from 'vue';
-
+import { defineComponent,computed,watch,toRefs } from 'vue';
+import { useSync } from '@directus/extensions-sdk';
 export default defineComponent({
 	props: {
+		layoutOptions: {
+            type: Object as PropType<LayoutOptions>,
+            required: false,
+        },
 		collection: {
 			default: null,
 		},
@@ -100,13 +111,17 @@ export default defineComponent({
 			type: Object,
 			default: null,
 		},
+		idShow:{
+			type: Boolean
+		}
 	
 	
 	},
 	emits: [''],
-	setup(props: any) {
+	setup(props: any,{emit}) {
 		const { t } = useI18n();
-
+		const {  layoutOptions } = toRefs(props);
+		
 		function getPublicURL(): string {
 			return extract(window.location.href);
 		}
@@ -189,7 +204,6 @@ export default defineComponent({
 
 .card .tags{
 	margin-bottom: 8px;
-    padding: 4px;
     font-size: 12px;
 	border-radius: 4px;
 	background-color: var(--border-normal);
@@ -203,4 +217,49 @@ export default defineComponent({
     display: inline-block;
     background-color: var(--border-normal);
 }
+.icon-fall{
+	position: absolute;
+	width: 100%;
+	inset: 0;
+	display: flex;
+	place-items: center;
+	justify-content: center;
+	z-index: 10;
+}
+.bg-not-thumbnail{
+	position: absolute;
+	width: 100%;
+	inset: 0;
+	z-index: 1;
+	background-color: var(--background-highlight);
+}
+.icon-fall v-icon{
+	font-size: 2rem;
+	width: 50px;
+	color: var(--text-normal);
+}
+.card-img .selection-fade{
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 48px;
+    opacity: 0;
+    transition: opacity var(--fast) var(--transition);
+}
+.card-img .selection-fade::before{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(-180deg, rgba(38, 50, 56, 0.1) 10%, rgba(38, 50, 56, 0));
+    content: "";
+}
+.card-img:hover .selection-fade{
+	opacity: 1;
+	transition: opacity var(--fast) var(--transition)
+}
+
 </style>

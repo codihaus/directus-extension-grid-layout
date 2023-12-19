@@ -1,33 +1,63 @@
 <template>
 	<div
 		class="card"
-		:class="{ loading, readonly, selected: item && modelValue.includes(item[itemKey]), 'select-mode': selectMode }"
+		:class="{
+			loading,
+			readonly,
+			selected:
+				item &&
+				modelValue.includes(
+					item[itemKey]
+				),
+			'select-mode': selectMode,
+		}"
 		@click="handleClick"
 	>
-		<v-icon class="selector" :name="selectionIcon" @click.stop="toggleSelection" />
-		<div  :class="`card-${size}`">
+		<v-icon
+			class="selector"
+			:name="selectionIcon"
+			@click.stop="
+				toggleSelection
+			"
+		/>
+		<div :class="`card-${size}`">
 			<card-item
-			:id="item.id"
-			:item="item"
-			:collection="collection"
-			:image="imageSource && imageSource?.id || null" 
-			:selectMode="selectionIcon"
-			:title="title"
-			:subtitle="subtitle" 
-			:tag="tag" 
-			:statusClass="statusClass(item.status)"
-			:classImgFit="imgFit()"
+				:id="item.id"
+				:item="item"
+				:collection="collection"
+				:image="
+					(imageSource &&
+						imageSource?.id) ||
+					null
+				"
+				:selectMode="
+					selectionIcon
+				"
+				:title="title"
+				:subtitle="subtitle"
+				:tag="tag"
+				:idShow="idShow"
+				:statusClass="
+					statusClass(
+						item.status
+					)
+				"
+				:classImgFit="imgFit()"
 			/>
 		</div>
 	</div>
-
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
-import CardItem from './CardItem.vue';
+import {
+	computed,
+	defineComponent,
+	PropType,
+	ref,
+} from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import CardItem from "./CardItem.vue";
 type File = {
 	[key: string]: any;
 	id: string;
@@ -42,7 +72,7 @@ export default defineComponent({
 		},
 		icon: {
 			type: String,
-			default: 'box',
+			default: "box",
 		},
 		file: {
 			type: Object as PropType<File>,
@@ -57,11 +87,15 @@ export default defineComponent({
 			default: false,
 		},
 		item: {
-			type: Object as PropType<Record<string, any>>,
+			type: Object as PropType<
+				Record<string, any>
+			>,
 			default: null,
 		},
 		modelValue: {
-			type: Array as PropType<(string | number)[]>,
+			type: Array as PropType<
+				(string | number)[]
+			>,
 			default: () => [],
 		},
 		selectMode: {
@@ -70,7 +104,7 @@ export default defineComponent({
 		},
 		to: {
 			type: String,
-			default: '',
+			default: "",
 		},
 		readonly: {
 			type: Boolean,
@@ -80,86 +114,140 @@ export default defineComponent({
 			type: String,
 			required: true,
 		},
-		imageSource:{
+		imageSource: {
 			type: String,
 		},
-		title:{
+		title: {
 			type: String,
-			default: 'title'
+			default: "title",
 		},
-		subtitle:{
+		subtitle: {
 			type: String,
-			default: 'subtitle'
+			default: "subtitle",
 		},
-		imageFit:{
+		imageFit: {
 			type: String,
 		},
-		tag:{
+		tag: {
 			type: String,
-			default: false
+			default: false,
 		},
-		size:{
+		size: {
 			type: Number,
-			default: 1
+			default: 1,
+		},
+		idShow: {
+			type: Boolean,
 		},
 	},
-	emits: ['update:modelValue'],
+	emits: ["update:modelValue"],
 	setup(props, { emit }) {
-
 		const router = useRouter();
-		const imgError = ref(false)
+		const imgError = ref(false);
 		const { t } = useI18n();
 
-		const selectionIcon = computed(() => {
-			if (!props.item) return 'radio_button_unchecked';
+		const selectionIcon = computed(
+			() => {
+				if (!props.item)
+					return "radio_button_unchecked";
 
-			return props.modelValue.includes(props.item[props.itemKey]) ? 'check_circle' : 'radio_button_unchecked';
-		});
+				return props.modelValue.includes(
+					props.item[
+						props.itemKey
+					]
+				)
+					? "check_circle"
+					: "radio_button_unchecked";
+			}
+		);
 
-		function toggleSelection(): void | any {
-			if (!props.item) return null;
-			
-			if (props.modelValue.includes(props.item[props.itemKey])) {
+		function toggleSelection():
+			| void
+			| any {
+			if (!props.item)
+				return null;
+
+			if (
+				props.modelValue.includes(
+					props.item[
+						props.itemKey
+					]
+				)
+			) {
 				emit(
-					'update:modelValue',
-					props.modelValue.filter((key) => key !== props.item[props.itemKey])
+					"update:modelValue",
+					props.modelValue.filter(
+						(key) =>
+							key !==
+							props.item[
+								props
+									.itemKey
+							]
+					)
 				);
 			} else {
-				emit('update:modelValue', [...props.modelValue, props.item[props.itemKey]]);
+				emit(
+					"update:modelValue",
+					[
+						...props.modelValue,
+						props.item[
+							props
+								.itemKey
+						],
+					]
+				);
 			}
 		}
 
-		function handleClick():void {
-			if (props.selectMode === true) {
+		function handleClick(): void {
+			if (
+				props.selectMode ===
+				true
+			) {
 				toggleSelection();
 			} else {
 				router.push(props.to);
 			}
 		}
 
-		function imgFit():string{
-			return props.imageFit == 'crop' ? 'object-cover' : 'object-contain'
+		function imgFit(): string {
+			return props.imageFit ==
+				"crop"
+				? "object-cover"
+				: "object-contain";
 		}
 
-		function statusClass(status:string):string{
-			return status === "published" ? "color_primary" : status === "archived" ? "color_archire" : "color_sub"
+		function statusClass(
+			status: string
+		): string {
+			return status ===
+				"published"
+				? "color_primary"
+				: status === "archived"
+				? "color_archire"
+				: "color_sub";
 		}
-		
-		
-		return {t,selectionIcon, toggleSelection, handleClick, imgError,imgFit,statusClass };
+
+		return {
+			t,
+			selectionIcon,
+			toggleSelection,
+			handleClick,
+			imgError,
+			imgFit,
+			statusClass,
+		};
 	},
-	
 });
 </script>
 
 <style lang="scss" scoped>
-
 .loading {
 	.header {
 		margin-bottom: 8px;
 	}
 }
-.card_img{
+.card_img {
 	wdith: 150px;
 	object-fit: cover;
 	height: 150px;
@@ -176,17 +264,23 @@ export default defineComponent({
 		justify-content: center;
 		width: 100%;
 		overflow: hidden;
-		background-color: var(--background-normal);
+		background-color: var(
+			--background-normal
+		);
 		border-color: var(--primary-50);
 		border-style: solid;
 		border-width: 0px;
-		border-radius: var(--border-radius);
-		transition: border-width var(--fast) var(--transition);
+		border-radius: var(
+			--border-radius
+		);
+		transition: border-width
+			var(--fast)
+			var(--transition);
 
 		&::after {
 			display: block;
 			padding-bottom: 100%;
-			content: '';
+			content: "";
 		}
 
 		.image {
@@ -206,12 +300,16 @@ export default defineComponent({
 		}
 
 		.type {
-			color: var(--foreground-subdued);
+			color: var(
+				--foreground-subdued
+			);
 			text-transform: uppercase;
 		}
 
 		.v-icon {
-			--v-icon-color: var(--foreground-subdued);
+			--v-icon-color: var(
+				--foreground-subdued
+			);
 		}
 
 		.v-skeleton-loader {
@@ -230,7 +328,9 @@ export default defineComponent({
 			width: 100%;
 			height: 48px;
 			opacity: 0;
-			transition: opacity var(--fast) var(--transition);
+			transition: opacity
+				var(--fast)
+				var(--transition);
 
 			&::before {
 				position: absolute;
@@ -238,8 +338,13 @@ export default defineComponent({
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background-image: linear-gradient(-180deg, rgb(38 50 56 / 0.1) 10%, rgb(38 50 56 / 0));
-				content: '';
+				background-image: linear-gradient(
+					-180deg,
+					rgb(38 50 56 / 0.1)
+						10%,
+					rgb(38 50 56 / 0)
+				);
+				content: "";
 			}
 		}
 	}
@@ -251,23 +356,28 @@ export default defineComponent({
 		z-index: 2;
 		width: 18px;
 		height: 18px;
-		background-color: var(--background-page);
+		background-color: var(
+			--background-page
+		);
 		border-radius: 24px;
 		opacity: 0;
-		transition: opacity var(--fast) var(--transition);
-		content: '';
+		transition: opacity var(--fast)
+			var(--transition);
+		content: "";
 	}
 
 	.selector {
-		--v-icon-color: var(--white);
-		--v-icon-color-hover: var(--white);
+		color: var(--v-icon-color);
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		z-index: 3;
+		z-index: 11;
 		margin: 4px;
 		opacity: 0;
-		transition: opacity var(--fast) var(--transition), color var(--fast) var(--transition);
+		transition: opacity var(--fast)
+				var(--transition),
+			color var(--fast)
+				var(--transition);
 		&:hover {
 			opacity: 1 !important;
 		}
@@ -291,8 +401,12 @@ export default defineComponent({
 		}
 
 		.selector {
-			--v-icon-color: var(--primary);
-			--v-icon-color-hover: var(--primary);
+			--v-icon-color: var(
+				--primary
+			);
+			--v-icon-color-hover: var(
+				--primary
+			);
 
 			opacity: 1;
 		}
