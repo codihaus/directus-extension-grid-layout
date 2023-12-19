@@ -204,7 +204,6 @@ export default defineComponent({
 
 .card .tags{
 	margin-bottom: 8px;
-    padding: 4px;
     font-size: 12px;
 	border-radius: 4px;
 	background-color: var(--border-normal);
@@ -262,4 +261,5 @@ export default defineComponent({
 	opacity: 1;
 	transition: opacity var(--fast) var(--transition)
 }
+
 </style>
