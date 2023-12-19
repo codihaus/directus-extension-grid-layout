@@ -28,7 +28,8 @@
 	"scripts": {
 		"build": "directus-extension build",
 		"dev": "directus-extension build -w --no-minify",
-		"link": "directus-extension link"
+		"link": "directus-extension link",
+		"release": "pnpm run build && changelogen --release && npm publish && git push --follow-tags"
 	},
 	"repository": {
 		"type": "git",
@@ -46,6 +47,7 @@
 		"@directus/composables": "^10.1.6",
 		"@directus/constants": "^11.0.1",
 		"@directus/types": "^11.0.2",
-		"@directus/utils": "^11.0.2"
+		"@directus/utils": "^11.0.2",
+		"changelogen": "^0.5.5"
 	}
 }
