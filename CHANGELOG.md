@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v1.0.8
+
+[compare changes](https://github.com/codihaus/directus-extension-grid-layout/compare/v1.0.7...v1.0.8)
+
 ## v1.0.7
 
 [compare changes](https://github.com/codihaus/directus-extension-grid-layout/compare/v1.0.6...v1.0.7)
