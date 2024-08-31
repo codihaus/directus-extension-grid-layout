@@ -27,7 +27,8 @@
 					)
 				}}
 			</div>
-			<v-field-template
+
+			<v-collection-field-template
 				v-model="titleWritable"
 				:collection="collection"
 			/>
@@ -41,7 +42,7 @@
 					)
 				}}
 			</div>
-			<v-field-template
+			<v-collection-field-template
 				v-model="
 					subtitleWritable
 				"
@@ -57,7 +58,7 @@
 					)
 				}}
 			</div>
-			<v-field-template
+			<v-collection-field-template
 				v-model="tagWritable"
 				:collection="collection"
 			/>
