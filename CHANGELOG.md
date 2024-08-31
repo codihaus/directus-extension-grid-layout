@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v1.0.5
+
+[compare changes](https://github.com/codihaus/directus-extension-grid-layout/compare/v1.0.3...v1.0.5)
+
+### 🩹 Fixes
+
+- #12 change component v-collection-field-template, to fix layout options ([#12](https://github.com/codihaus/directus-extension-grid-layout/issues/12))
+
+### 🏡 Chore
+
+- **release:** V1.0.3 ([5ecdd78](https://github.com/codihaus/directus-extension-grid-layout/commit/5ecdd78))
+- **release:** V1.0.4 ([13a441b](https://github.com/codihaus/directus-extension-grid-layout/commit/13a441b))
+
+### ❤️ Contributors
+
+- TranQuangMinh <contact@codihaus.com>
+- Thanhduong <duonglybaothanh0210@gmail.com>
+
 ## v1.0.4
 
 [compare changes](https://github.com/codihaus/directus-extension-grid-layout/compare/v1.0.3...v1.0.4)
