@@ -13,6 +13,9 @@
 			"
 		>
 			<cards-header
+				v-model:cardstyle="
+					cardstyleWritable
+				"
 				v-model:size="
 					sizeWritable
 				"
@@ -61,6 +64,7 @@
 					:idShow="idShow"
 					:title="title"
 					:subtitle="subtitle"
+					:content="content"
 					:imageSource="
 						imageSource
 							? item[
@@ -81,6 +85,7 @@
 					"
 					:readonly="readonly"
 					:size="size"
+					:cardstyle="cardstyle"
 				/>
 			</div>
 			<div class="footer">
@@ -282,6 +287,9 @@ export default defineComponent({
 			type: Number,
 			required: true,
 		},
+		cardstyle: {
+			type: String,
+		},
 		size: {
 			type: Number,
 		},
@@ -302,6 +310,10 @@ export default defineComponent({
 			default: null,
 		},
 		subtitle: {
+			type: String,
+			default: null,
+		},
+		content: {
 			type: String,
 			default: null,
 		},
@@ -368,6 +380,7 @@ export default defineComponent({
 	emits: [
 		"update:selection",
 		"update:limit",
+		"update:cardstyle",
 		"update:size",
 		"update:sort",
 		"update:width",
@@ -384,6 +397,11 @@ export default defineComponent({
 		const limitWritable = useSync(
 			props,
 			"limit",
+			emit
+		);
+		const cardstyleWritable = useSync(
+			props,
+			"cardstyle",
 			emit
 		);
 		const sizeWritable = useSync(
@@ -432,6 +450,7 @@ export default defineComponent({
 			t,
 			selectionWritable,
 			limitWritable,
+			cardstyleWritable,
 			sizeWritable,
 			sortWritable,
 			layoutElement,

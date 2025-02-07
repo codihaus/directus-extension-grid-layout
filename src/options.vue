@@ -49,6 +49,17 @@
 				:collection="collection"
 			/>
 		</div>
+		<div class="field">
+			<div class="type-label">
+				Content
+			</div>
+			<v-collection-field-template
+				v-model="
+					contentWritable
+				"
+				:collection="collection"
+			/>
+		</div>
 
 		<div class="field">
 			<div class="type-label">
@@ -148,6 +159,10 @@ export default defineComponent({
 			type: String,
 			default: null,
 		},
+		content: {
+			type: String,
+			default: null,
+		},
 		imageFit: {
 			type: String,
 			required: true,
@@ -192,6 +207,12 @@ export default defineComponent({
 				"subtitle",
 				emit
 			);
+		const contentWritable =
+			useSync(
+				props,
+				"content",
+				emit
+			);
 		const imageFitWritable =
 			useSync(
 				props,
@@ -215,6 +236,7 @@ export default defineComponent({
 			imageSourceWritable,
 			titleWritable,
 			subtitleWritable,
+			contentWritable,
 			imageFitWritable,
 			tagWritable,
 		};

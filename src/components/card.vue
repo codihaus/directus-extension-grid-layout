@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="card"
-		:class="{
+		:class="[{
 			loading,
 			readonly,
 			selected:
@@ -10,16 +10,10 @@
 					item[itemKey]
 				),
 			'select-mode': selectMode,
-		}"
+		}, `card-style-${cardstyle}`]"
 		@click="handleClick"
 	>
-		<v-icon
-			class="selector"
-			:name="selectionIcon"
-			@click.stop="
-				toggleSelection
-			"
-		/>
+		
 		<div :class="`card-${size}`">
 			<card-item
 				:id="item.id"
@@ -35,6 +29,7 @@
 				"
 				:title="title"
 				:subtitle="subtitle"
+				:content="content"
 				:tag="tag"
 				:idShow="idShow"
 				:statusClass="
@@ -43,9 +38,44 @@
 					)
 				"
 				:classImgFit="imgFit()"
-			/>
+				:to="to"
+			>
+				<template #select-icon>
+					<v-icon
+						class="selector"
+						:name="selectionIcon"
+						@click.stop="
+							toggleSelection
+						"
+					/>
+				</template>
+			</card-item>
 		</div>
 	</div>
+	<v-drawer
+		v-model="previewDrawer"
+		@cancel="previewDrawer=false"
+	>
+		<template #title>
+			<render-template 
+				v-if="title" class="title" 
+				:collection="collection" 
+				:item="item" 
+				:template="title" 
+			/>
+		</template>
+		<template #headline>
+			<render-template 
+				v-if="subtitle" class="subtitle" 
+				:collection="collection" 
+				:item="item" 
+				:template="subtitle" 
+			/>
+		</template>
+		<div class="preview-content">
+			<div class="post-content" v-html="previewContent"></div>
+		</div>
+	</v-drawer>
 </template>
 
 <script lang="ts">
@@ -58,6 +88,8 @@ import {
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import CardItem from "./CardItem.vue";
+import { getFieldsFromTemplate } from '@directus/utils';
+
 type File = {
 	[key: string]: any;
 	id: string;
@@ -125,12 +157,20 @@ export default defineComponent({
 			type: String,
 			default: "subtitle",
 		},
+		content: {
+			type: String,
+			default: "content",
+		},
 		imageFit: {
 			type: String,
 		},
 		tag: {
 			type: String,
 			default: false,
+		},
+		cardstyle: {
+			type: String,
+			default: '1',
 		},
 		size: {
 			type: Number,
@@ -145,6 +185,13 @@ export default defineComponent({
 		const router = useRouter();
 		const imgError = ref(false);
 		const { t } = useI18n();
+		const previewDrawer = ref(false)
+
+		const previewContent = computed(() => {
+			const fields = getFieldsFromTemplate(props.content)
+			let output = fields?.map((field) => props.item?.[field])
+			return output.join('')
+		})
 
 		const selectionIcon = computed(
 			() => {
@@ -200,13 +247,15 @@ export default defineComponent({
 		}
 
 		function handleClick(): void {
+			console.log(props.selectMode)
 			if (
 				props.selectMode ===
 				true
 			) {
 				toggleSelection();
 			} else {
-				router.push(props.to);
+				previewDrawer.value = true
+				// router.push(props.to);
 			}
 		}
 
@@ -231,6 +280,8 @@ export default defineComponent({
 		return {
 			t,
 			selectionIcon,
+			previewDrawer,
+			previewContent,
 			toggleSelection,
 			handleClick,
 			imgError,
@@ -458,5 +509,9 @@ export default defineComponent({
 .subtitle {
 	margin-top: 0px;
 	color: var(--foreground-subdued);
+}
+
+.preview-content {
+	padding: 0 24px;
 }
 </style>

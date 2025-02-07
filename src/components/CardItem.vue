@@ -1,6 +1,7 @@
 <template>
 	<div class="d-flex-custom gap-6-6 ">
 		<div class="card-img relative"  >
+			<slot name="select-icon" />
 			<div  class="selection-fade"></div>
 			<img 
 				v-if="image"
@@ -17,7 +18,7 @@
 				class="card-abs" 
 				:class="selectMode === 'check_circle' ? 'outline' : ''"></div>
 		</div>
-		<div class="flex-1 gap-6">
+		<div class="card-content flex-1 gap-6">
 			<render-template 
 				v-if="title" class="title" 
 				:collection="collection" 
@@ -55,6 +56,23 @@
 					:template="`{{date_created}}`" 
 				/>
 			</p>
+			<div class="card-item-action">
+				<v-button
+					:to="to"
+					dashed
+					:style="{
+						'--v-button-height': '30px',
+						'--v-button-min-width': '0',
+						'--v-button-padding': '8px',
+					}"
+				>
+					<v-icon name="edit_square" :style="{
+						'--v-icon-size': '18px',
+						'margin-right': '4px'
+					}"/>
+					Edit
+				</v-button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -113,8 +131,11 @@ export default defineComponent({
 		},
 		idShow:{
 			type: Boolean
-		}
-	
+		},
+		to: {
+			type: String,
+			default: "",
+		},
 	
 	},
 	emits: [''],
@@ -186,6 +207,9 @@ export default defineComponent({
     white-space: initial !important;
     text-overflow: ellipsis;
 }
+.card .card-item-action {
+	margin-top: 8px;
+}
 
 
 .color_primary{
@@ -246,6 +270,7 @@ export default defineComponent({
     width: 100%;
     height: 48px;
     opacity: 0;
+	border-radius: 6px;
     transition: opacity var(--fast) var(--transition);
 }
 .card-img .selection-fade::before{
@@ -260,6 +285,37 @@ export default defineComponent({
 .card-img:hover .selection-fade{
 	opacity: 1;
 	transition: opacity var(--fast) var(--transition)
+}
+
+.card.card-style-2 {
+	.card-img {
+		@media (min-width: 1024px) {
+			height: 250px;
+			width: 50%;
+		}
+		:deep() .selector {
+			right: 0;
+			left: auto;
+		}
+		img, .bg-not-thumbnail {
+			border-radius: 6px;
+		}
+	}
+	.card-content {
+		@media (min-width: 1024px) {
+			order: -1;
+		}
+	}
+	.title {
+		@media (min-width: 1024px) {
+			font-size: 2rem;
+			margin-bottom: 24px;
+			line-height: 1.2;
+		}
+	}
+	.subtitle {
+		margin-bottom: 10px;
+	}
 }
 
 </style>

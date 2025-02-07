@@ -49,6 +49,11 @@
 			</button>
 		</div>
 		<div class="end">
+			<v-select
+				:items="styleItems"
+				v-model="styleSync"
+				class="select-card-style"
+			/>
 			<v-icon
 				v-tooltip.top="
 					t('card_size')
@@ -138,6 +143,7 @@ import {
 	defineComponent,
 	PropType,
 	computed,
+	ref,
 } from "vue";
 import {
 	Field,
@@ -152,6 +158,9 @@ export default defineComponent({
 				Field[]
 			>,
 			required: true,
+		},
+		cardstyle: {
+			type: String,
 		},
 		size: {
 			type: Number,
@@ -176,12 +185,30 @@ export default defineComponent({
 	},
 	emits: [
 		"select-all",
+		"update:cardstyle",
 		"update:size",
 		"update:sort",
 		"update:selection",
 	],
 	setup(props, { emit }) {
 		const { t } = useI18n();
+
+		const styleItems = ref([
+			{
+				text: 'Style 1',
+				value: '1'
+			},
+			{
+				text: 'Style 2',
+				value: '2'
+			},
+		])
+
+		const styleSync = useSync(
+			props,
+			"cardstyle",
+			emit
+		);
 
 		const sizeSync = useSync(
 			props,
@@ -259,6 +286,8 @@ export default defineComponent({
 			descending,
 			toggleDescending,
 			sortField,
+			styleSync,
+			styleItems,
 			sizeSync,
 			sortSync,
 			selectionSync,
@@ -390,6 +419,16 @@ export default defineComponent({
 			);
 			cursor: pointer;
 		}
+	}
+}
+.select-card-style {
+	margin-right: 16px;
+	display: block;
+}
+.select-card-style :deep() {
+	.v-menu-activator {
+		display: block;
+		min-width: 120px;
 	}
 }
 </style>

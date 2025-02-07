@@ -68,11 +68,13 @@ export default defineLayout<
 		} = useCollection(collection);
 
 		const {
+			cardstyle,
 			size,
 			icon,
 			imageSource,
 			title,
 			subtitle,
+			content,
 			imageFit,
 			tag,
 			idShow,
@@ -284,6 +286,11 @@ export default defineLayout<
 		}
 
 		function useLayoutOptions() {
+			const cardstyle =
+				createViewOption<number>(
+					"cardstyle",
+					'1'
+				);
 			const size =
 				createViewOption<number>(
 					"size",
@@ -302,6 +309,10 @@ export default defineLayout<
 				createViewOption<
 					string | null
 				>("subtitle", null);
+			const content =
+				createViewOption<
+					string | null
+				>("content", null);
 			const imageSource =
 				createViewOption<
 					string | null
@@ -322,11 +333,13 @@ export default defineLayout<
 					true
 				);
 			return {
+				cardstyle,
 				size,
 				icon,
 				imageSource,
 				title,
 				subtitle,
+				content,
 				imageFit,
 				tag,
 				idShow,
@@ -451,6 +464,13 @@ export default defineLayout<
 						)
 					);
 				}
+				if (content.value) {
+					titleSubtitleFields.push(
+						...getFieldsFromTemplate(
+							content.value
+						)
+					);
+				}
 				if (tag.value) {
 					titleSubtitleFields.push(
 						...getFieldsFromTemplate(
@@ -520,6 +540,7 @@ export default defineLayout<
 			totalCount,
 			fieldsInCollection,
 			limit,
+			cardstyle,
 			size,
 			primaryKeyField,
 			icon,
@@ -528,6 +549,7 @@ export default defineLayout<
 			idShow,
 			title,
 			subtitle,
+			content,
 			getLinkForItem,
 			imageFit,
 			sort,
